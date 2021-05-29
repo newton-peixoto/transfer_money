@@ -1,0 +1,44 @@
+version: '2.1'
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: app.dockerfile
+    working_dir: /var/www/src
+    links:
+      - mysql
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./:/var/www
+  mysql:
+      image: mysql:5.7
+      command: mysqld --sql_mode=""
+      volumes:
+        - ./db:/var/lib/mysql
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: lumen
+        MYSQL_USER: lumen
+        MYSQL_PASSWORD: root        
+      ports:
+          - 3399:3306       
+      healthcheck:
+        test: "/usr/bin/mysql --user=root --password=root --execute \"SHOW DATABASES;\""
+        interval: 2s
+        timeout: 20s
+        retries: 10      
+  web:
+    build:
+      context: ./
+      dockerfile: web.dockerfile
+    working_dir: /var/www/src
+    depends_on:   
+      - app
+    volumes:
+      - ./:/var/www
+    links:
+      - mysql
+    ports:
+      - 8000:80
