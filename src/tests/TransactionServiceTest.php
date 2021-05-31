@@ -6,7 +6,6 @@ use App\Models\Wallet;
 use App\Services\AuthorizationService;
 use App\Services\TransactionService;
 use Illuminate\Support\Facades\Queue;
-use Mockery;
 
 
 class TransactionServiceTest extends TestCase
@@ -14,7 +13,7 @@ class TransactionServiceTest extends TestCase
 
     public function setUp()  : void {
         parent::setUp();
-        $this->artisan('migrate:refresh');
+        $this->artisan('migrate:fresh');
     }
 
     public function testMustNotTransferWhenServiceIsNotAvailable()
@@ -30,8 +29,14 @@ class TransactionServiceTest extends TestCase
     {
         $this->expectExceptionMessage('The requested amount is not available');
         // prepara o mock do serviço e cria dois usuários comuns
-        $payer =User::factory(1)->has(Wallet::factory())->create()->first();
-        $payee =User::factory(1)->has(Wallet::factory())->create()->first();
+        $payer =User::factory(1)->has(Wallet::factory())->create([
+            'identifier' => '26791226072',
+            'user_type'  => 'customer',
+        ])->first();
+        $payee =User::factory(1)->has(Wallet::factory())->create([
+            'identifier' => '72902300000',
+            'user_type'  => 'customer'
+        ])->first();
         $mock = Mockery::mock(AuthorizationService::class);
         $mock->shouldReceive('isServiceAvailable')->andReturn(True);
         $transactionService = new TransactionService($mock);
