@@ -6,23 +6,24 @@ namespace App\Services;
 use App\Jobs\SendTransactionNotificationJob;
 use App\Models\User;
 use App\Models\Transaction;
-use GuzzleHttp\Client;
+use App\Services\AuthorizationService;
 use DB;
 
 class TransactionService {
 
     const BASE_URL = 'https://run.mocky.io/';
 
-    public function __construct()
+    private $authorizationService;
+
+    public function __construct(AuthorizationService $authorizationService)
     {
-        $this->client = new Client([
-            'base_uri' => self::BASE_URL
-        ]);
+        $this->authorizationService = $authorizationService;
     }
 
     public function transfer(array $data) {
 
-        if(!$this->isServiceAvailable()) {
+            
+        if(!$this->authorizationService->isServiceAvailable()) {
             throw new \Exception('Service is not available. Try again later.');     
         }
 
@@ -64,16 +65,5 @@ class TransactionService {
         return $wallet->balance >= $amount;
     }
 
-
-    private function isServiceAvailable() {
-        
-        $uri = '/v3/8fafdd68-a090-496f-8c9a-3442cf30dae6';
-        try {
-            $response = $this->client->request('GET',$uri);
-            return json_decode($response->getBody(), true);
-        } catch (\GuzzleException $e) {
-            return ['message' => 'Não Autorizado'];
-        }
-    }
 
 }

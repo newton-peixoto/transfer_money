@@ -11,6 +11,18 @@ abstract class TestCase extends BaseTestCase
      */
     public function createApplication()
     {
-        return require __DIR__.'/../bootstrap/app.php';
+        return require '/var/www/src/bootstrap/app.php';
+    }
+
+    public function setUp() : void
+    {
+        parent::setUp();
+
+        $this->app['config']->set('database.default', 'testing');
+        $this->app['config']->set('database.connections.testing', [
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+            'prefix' => ''
+        ]);
     }
 }

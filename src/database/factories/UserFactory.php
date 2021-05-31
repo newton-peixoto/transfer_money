@@ -21,9 +21,18 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $cpf_cnpj  = ['63372967020','69850570000177'];
+        $user_type = ['customer', 'shopkeeper'];
+        $index = rand(0, 1);
+
         return [
-            'name' => $this->faker->name,
-            'email' => $this->faker->unique()->safeEmail,
+            'name'       => $this->faker->name,
+            'email'      => $this->faker->unique()->safeEmail,
+            'password'   => '$2y$10$ivDMjJDuJ9y4.fbehXP34.CTb9MK0HASwhR/pyrohtS.zej.qZGSy', // 123123
+            'identifier' => $cpf_cnpj[$index],
+            'user_type'  => $user_type[$index],
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
         ];
     }
 }
