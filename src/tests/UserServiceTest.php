@@ -21,7 +21,7 @@ class UserServiceTest extends TestCase
         $this->assertEquals($user->email, $data['email']);
     }
 
-    public function testGivenInValidDataShouldNotCreateUser(){
+    public function testGivenInvalidDataShouldNotCreateUser(){
         $this->expectExceptionMessage('Error while creating user in the database!');
         $data = ['name' => 'tester', 
                 'email' => 'tester@email.com', 
