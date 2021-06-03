@@ -1,0 +1,135 @@
+{
+	"info": {
+		"_postman_id": "e4986a14-9f76-4faa-83e3-78b8b4cc1824",
+		"name": "transfer_money",
+		"description": "Dado um CNPJ válido você irá ser um logista, dado um CPF você irá cadastrar um cliente comum.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "SignUp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Tester\",\n    \"email\": \"tester@hotmail.com\",\n    \"password\": \"123123\",\n    \"password_confirmation\": \"123123\",\n    \"identifier\": \"26791226072\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/signUp",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"signUp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "signIn",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\" : \"tester@hotmail.com\",\n    \"password\" : \"12323\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/signIn",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"signIn"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transactions",
+			"item": [
+				{
+					"name": "Transaction",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC9zaWduSW4iLCJpYXQiOjE2MjI0MDMxNDEsImV4cCI6MTYyMjQwNjc0MSwibmJmIjoxNjIyNDAzMTQxLCJqdGkiOiJ6bnRraWpUN1gxV3RMYTFRIiwic3ViIjoyLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.hOMH7HelvT25UEhQ3jIDI8H5e5RmLMSv7cL1QCTiSNk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n    \"payee\" : \"2\",\n    \"amount\" : 7.90\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/transaction",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Esteja logado e adiciona o token no header Authorization."
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000/api"
+		}
+	]
+}
