@@ -25,7 +25,7 @@ class TransactionService {
             
         if(!$this->authorizationService->isServiceAvailable()) {
             throw new \Exception('Service is not available. Try again later.');     
-        }
+        } 
 
         if(!$this->checkUserBalance($data['payer'], $data['amount'])) {
             throw new \Exception("The requested amount is not available.", 422);
@@ -60,8 +60,8 @@ class TransactionService {
     }
 
     private function checkUserBalance($payer, $amount) {
-        $wallet = User::find($payer)->first()->wallet;
-
+        $wallet = User::where('id', $payer)->first()->wallet;
+        
         return $wallet->balance >= $amount;
     }
 
